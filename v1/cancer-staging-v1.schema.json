@@ -1,0 +1,257 @@
+{
+  "$id": "https://github.com/projectronin/rcontract-event-cancer-staging/blob/main/v1/cancer-staging-v1.schema.json",
+  "title": "Cancer Staging",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "create" : {
+      "description": "This represents a create event.",
+      "$ref": "#/$defs/staging"
+    },
+    "update": {
+      "description": "This represents an update event",
+      "$ref": "#/$defs/staging"
+    },
+    "delete": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The primary identifier of the resource"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "Tenant ID"
+        },
+        "deletedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time when the resource was deleted"
+        }
+      },
+      "required": ["id", "tenantId", "deletedAt"]
+    }
+  },
+  "$defs":  {
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "use": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/codeableConcept"
+        },
+        "system": {
+          "type": "string",
+          "format": "uri"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "coding": {
+      "type": "object",
+      "description": "This defines the required attributed for a FHIR code",
+      "properties": {
+        "system": {
+          "description": "The coding system that defines what the code represents",
+          "type": "string"
+        },
+        "code": {
+          "description": "The specific code determined by the system that specifies the value.",
+          "type": "string"
+        },
+        "display": {
+          "description": "The human readable value for the code",
+          "type": "string"
+        },
+        "version": {
+          "description": "The specific version of the system where the code is defined",
+          "type": "string"
+        },
+        "userSelected": {
+          "description": "If the coding was selected by the user",
+          "type": "boolean"
+        }
+      }
+    },
+    "codeableConcept": {
+      "type":"object",
+      "description": "This is a CodeableConcept with an extracted emrText attribute that dictates the correct value to represent in an EMR context.",
+      "properties": {
+        "emrText": {
+          "type": "string"
+        },
+        "coding": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coding"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "resourceReference": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "type": "object",
+          "description": "When this exists, it represents a reference to an actual resource. This is derived from the data specified in `reference`.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "This is the ronin resource type"
+            },
+            "id": {
+              "type": "string",
+              "description": "This is the ronin ID for the resource"
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The FHIR type attribute of the resource"
+        },
+        "reference": {
+          "type": "string",
+          "format": "uri-template",
+          "description": "This should refer to a `resource.type/resource.id` but could refer to an external resource"
+        },
+        "identifier": {
+          "$ref": "#/$defs/identifier"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    },
+    "componentDefinition": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "coding": {
+          "$ref": "#/$defs/coding",
+          "description": "The observation code"
+        },
+        "value": {
+          "type": "string",
+          "description": "The display value for the component"
+        },
+        "derivedFrom": {
+          "$ref": "#/$defs/resourceReference",
+          "description": "The Observation the value was extracted from"
+        }
+      },
+      "required": ["coding", "value", "derivedFrom"]
+    },
+    "staging": {
+      "type": "object",
+      "description": "The staging resource",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource ID"
+        },
+        "fhirId": {
+          "type": "string",
+          "description": "FHIR ID"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The tenant ID"
+        },
+        "resourceVersion": {
+          "type": "string",
+          "description": "An monotonically incrementing version used for ordering representations"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the result value"
+        },
+        "category": {
+          "$ref": "#/$defs/coding",
+          "description": "Classification of the type of observation"
+        },
+        "code": {
+          "$ref": "#/$defs/codeableConcept",
+          "description": "Type of staging information reported"
+        },
+        "subject": {
+          "$ref": "#/$defs/resourceReference",
+          "description": "The RoninPatient we are referencing"
+        },
+        "focus": {
+          "$ref": "#/$defs/resourceReference",
+          "description": "The RoninCancerDiagnosis that this is referencing"
+        },
+        "effective": {
+          "type": "object",
+          "description": "The staging date",
+          "properties": {
+            "dateTime": {
+              "type": "string",
+              "description": "The staging date as a FHIR dateTime"
+            },
+            "derivedFrom": {
+              "$ref": "#/$defs/resourceReference",
+              "description": "The Observation that the staging date comes from"
+            }
+          },
+          "required": ["dateTime", "derivedFrom"]
+        },
+        "value": {
+          "type": "object",
+          "description": "The result as a simple value",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "The actual staging value"
+            },
+            "derivedFrom": {
+              "$ref": "#/$defs/resourceReference",
+              "description": "The Observation where the staging value comes from"
+            }
+          },
+          "required": ["value", "derivedFrom"]          
+        },
+        "tumor": {
+          "$ref": "#/$defs/componentDefinition",
+          "description": "The tumor component of staging"
+        }, 
+        "node": {
+          "$ref": "#/$defs/componentDefinition",
+          "description": "The node component of staging"
+        },
+        "metastasis": {
+          "$ref": "#/$defs/componentDefinition",
+          "description": "The metastasis component of the staging"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When was the resource created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When want the resource last updated"
+        }
+      },
+      "required": [
+        "id", 
+        "fhirId",
+        "tenantId", 
+        "resourceVersion",
+        "status",
+        "category",
+        "code",
+        "subject",
+        "focus",
+        "effective",
+        "createdAt"
+      ]
+    }
+  }
+}

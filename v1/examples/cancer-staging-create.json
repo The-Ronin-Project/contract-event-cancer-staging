@@ -1,0 +1,105 @@
+{
+  "create": {
+    "id": "h387afy7-9C1F-018F19B4CBC1",
+    "tenantId": "h387afy7",
+    "fhirId": "9C1F-018F19B4CBC1",
+    "resourceVersion": "2022090912432146",
+    "status": "unknown",
+    "category": {
+      "system": "http://snomed.info/sct",
+      "code": "385356007",
+      "display": "Tumor stage finding (finding)"
+    },
+    "code": {
+      "coding": [
+        {
+          "system": "http://loinc.org",
+          "code": "21902-2",
+          "display": "Stage group.pathology Cancer"
+        }
+      ]
+    },
+    "subject": {
+      "reference": "RoninPatient/h387afy7-B898-253F93F1F48C",
+      "resource": {
+        "type": "RoninPatient",
+        "id": "h387afy7-B898-253F93F1F48C"
+      },
+      "display": "Subject"
+    },
+    "focus": {
+      "reference": "RoninCancerDiagnosis/h387afy7-43CC-A563-4C45931E9530",
+      "resource": {
+        "type": "RoninCancerDiagnosis",
+        "id": "h387afy7-43CC-A563-4C45931E9530"
+      }      
+    },
+    "effective": {
+      "dateTime": "2022-07-02",
+      "derivedFrom": {
+        "reference": "RoninObservation/h387afy7-11111-2ffa-4937-8403-cba4e1665ff7",
+        "resource": {
+          "type": "RoninObservation",
+          "id": "h387afy7-11111-2ffa-4937-8403-cba4e1665ff7"
+        }      
+      }
+    },
+    "value": {
+      "value": "Stage IIIb",
+      "derivedFrom": {
+        "reference": "RoninObservation/h387afy7-11111-2ffa-4937-8403-cba4e1665ff7",
+        "resource": {
+          "type": "RoninObservation",
+          "id": "h387afy7-11111-2ffa-4937-8403-cba4e1665ff7"
+        }
+      }      
+    },
+    "tumor": {
+      "coding": {
+        "system": "http://snomed.info/sct",
+        "code": "260878002",
+        "display": "T - Tumor stage (attribute)"
+      },
+      "value": "pT3a",
+      "derivedFrom": {
+        "reference": "RoninObservation/h387afy7-22222-2ffa-4937-8403-cba4e1665ff7",
+        "resource": {
+          "type": "RoninObservation",
+          "id": "h387afy7-22222-2ffa-4937-8403-cba4e1665ff7"
+        }
+      }      
+    },
+    "node": {
+      "coding": {
+        "system": "http://snomed.info/sct",
+        "code": "260767000",
+        "display": "N- Regional lymph node stage"     
+      },
+      "value": "pN0",
+      "derivedFrom": {
+        "reference": "RoninObservation/h387afy7-33333-2ffa-4937-8403-cba4e1665ff7",
+        "resource": {
+          "type": "RoninObservation",
+          "id": "h387afy7-33333-2ffa-4937-8403-cba4e1665ff7"
+        }
+      }      
+    },
+    "metastasis": {
+      "coding": {
+        "system": "http://snomed.info/sct",
+        "code": "260875004",
+        "display": "M- Distant metastasis stage"      
+      },
+      "value": "cM0",
+      "derivedFrom": {
+        "reference": "RoninObservation/h387afy7-44444-2ffa-4937-8403-cba4e1665ff7",
+        "resource": {
+          "type": "RoninObservation",
+          "id": "h387afy7-44444-2ffa-4937-8403-cba4e1665ff7"
+        }
+      }      
+    },
+    "createdAt": "2022-09-13T12:14:15Z",
+    "updatedAt": "2022-09-13T12:14:15Z"
+  }
+}
